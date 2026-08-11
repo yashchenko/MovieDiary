@@ -10,13 +10,15 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let rootVC = MovieDiaryDependencyContainer()
+    
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = scene
-        window?.rootViewController = UINavigationController(rootViewController: TempVC())
+        window?.rootViewController = UINavigationController(rootViewController: rootVC.makeRootVC())
         window?.makeKeyAndVisible()
     }
 
