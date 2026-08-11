@@ -1,0 +1,19 @@
+# macOS / System
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods (если будут)
+# Pods/
+!Podfile.lock
+EOF
