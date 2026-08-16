@@ -20,6 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = scene
         window?.rootViewController = UINavigationController(rootViewController: rootVC.makeRootVC())
         window?.makeKeyAndVisible()
+        
+        let TMDBTest = TMDBRemoteAPI()
+        let test = TMDBTest.fetchMovies(pages: 1, completion: { result in
+            switch result {
+            
+            case .failure(let error):
+                print(error)
+            
+            case .success(let moviesArray):
+                print(moviesArray)
+            }
+        })
+        
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
