@@ -21,17 +21,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = UINavigationController(rootViewController: rootVC.makeRootVC())
         window?.makeKeyAndVisible()
         
-        let TMDBTest = TMDBRemoteAPI()
-        let test = TMDBTest.fetchMovies(pages: 1, completion: { result in
+        
+        let mockTest: RemoteAPI = MockClass()
+        
+        
+        let tmdbTest = FetchPopularMovies(tmdb: mockTest)
+        
+        tmdbTest.execute(page: 4) { result in
+            
             switch result {
             
             case .failure(let error):
                 print(error)
+                
+            case .success(let movies):
+                
+                print(movies)
             
-            case .success(let moviesArray):
-                print(moviesArray)
             }
-        })
+            
+        }
+        
+        
+//        let test = tmdbTest.fetchMovies(pages: 1, completion: { result in
+//            switch result {
+//
+//            case .failure(let error):
+//                print(error)
+//
+//            case .success(let moviesArray):
+//                print(moviesArray)
+//            }
+//        })
         
         
     }
@@ -67,3 +88,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+
+
+class MockClass: RemoteAPI {
+    
+    let page = 5
+    let result: [MovieEntity] = [MovieEntity(adult: true, backdropPath: "backdropPath", genreIDS: [23, 56], id: 45, title: "Very good movie", originalLanguage: "ru", originalTitle: "Good movie", overview: "Rate 5 star", popularity: 4.5, posterPath: "No postr", releaseDate: nil, softcore: false, video: true, voteAverage: 3.5, voteCount: 4), MovieEntity(adult: true, backdropPath: "backdropPath", genreIDS: [23, 56], id: 45, title: "Very good movie", originalLanguage: "ru", originalTitle: "Good movie", overview: "Rate 5 star", popularity: 4.5, posterPath: "No postr", releaseDate: nil, softcore: false, video: true, voteAverage: 3.7, voteCount: 5)]
+    
+    
+    func fetchMovies(pages: Int, completion: @escaping (Result<[MovieEntity], APIError>) -> Void) {
+        completion(.success(result))
+    }
+    
+    
+    
+    
+}
