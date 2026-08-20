@@ -58,6 +58,6 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     }
     
   
-    
-    
 }
+    
+// MARK: - comment for aligning branches mar 194
