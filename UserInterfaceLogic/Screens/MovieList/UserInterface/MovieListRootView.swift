@@ -9,8 +9,17 @@ import UIKit
 
 class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     
+    weak var responderSoem: MovieIxResponder?
+    
     private let collectionView: UICollectionView
     private let activityIndicator = UIActivityIndicatorView(style: .large)
+    
+    override func didMoveToWindow() {
+        if self.window != nil {
+            
+            self.responderSoem?.screenDidReady()
+        }
+    }
     
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
@@ -56,8 +65,5 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
         
         collectionView.isHidden = state.isLoading
     }
-    
-  
 }
     
-// MARK: - comment for aligning branches mar 194
