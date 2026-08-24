@@ -36,5 +36,22 @@ class MovieListVC: UIViewController, MovieIxResponder {
     
     func screenDidReady() {
         print("view is ready")
+        
+        useCase.execute(page: 1) { [weak self] result in
+            
+            DispatchQueue.main.async {
+                switch result {
+                
+                case .failure(let error):
+                    print("MovieListVC: Error \(error)")
+                    
+                case .success(let movies):
+                    let successState = MovieListViewState(isLoading: true, movies: movies)
+                    
+                    self?.viewSome.render(state: successState)
+                    
+                }
+            }
+        }
     }
 }

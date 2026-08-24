@@ -40,6 +40,9 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
+        
         NSLayoutConstraint.activate([
             
             collectionView.topAnchor.constraint(equalTo: topAnchor),
@@ -58,9 +61,10 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     func render(state: MovieListViewState) {
         if state.isLoading {
             activityIndicator.startAnimating()
+
         } else {
-            
             activityIndicator.stopAnimating()
+
         }
         
         collectionView.isHidden = state.isLoading
