@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let rootVC = MovieDiaryDependencyContainer()
+    let containerVC = DependencyContainer()
     
 
 
@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = scene
-        window?.rootViewController = UINavigationController(rootViewController: rootVC.makeRootVC())
+        window?.rootViewController = containerVC.assembly()
         window?.makeKeyAndVisible()
     }
 
