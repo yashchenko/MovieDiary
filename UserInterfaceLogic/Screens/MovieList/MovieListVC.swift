@@ -46,7 +46,8 @@ class MovieListVC: UIViewController, MovieIxResponder {
                     print("MovieListVC: Error \(error)")
                     
                 case .success(let movies):
-                    let successState = MovieListViewState(isLoading: true, movies: movies)
+                    print("🎬 Фильмы дошли до контроллера: \(movies.count) штук!")
+                    let successState = MovieListViewState(isLoading: false, movies: movies)
                     
                     self?.viewSome.render(state: successState)
                     
