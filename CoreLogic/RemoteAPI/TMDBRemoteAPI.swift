@@ -26,14 +26,17 @@ class TMDBRemoteAPI: RemoteAPI {
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             
+            print("Данные пришли: \(data)")
+            
             if let error = error {
                 
+                print("Ошибка сети: \(error)")
                 completion(.failure(.networkError(error)))
                 return
             }
             
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode), let data = data else {
-                
+                print("Ошибка статуса: response")
                 completion(.failure(.invalidResponse))
                 return
             }
@@ -45,7 +48,7 @@ class TMDBRemoteAPI: RemoteAPI {
                 
                 
             } catch let decodingError {
-            
+                print("Ошибка парсинга: \(decodingError)")
                 completion(.failure(.decodingError(decodingError)))
                 
             }

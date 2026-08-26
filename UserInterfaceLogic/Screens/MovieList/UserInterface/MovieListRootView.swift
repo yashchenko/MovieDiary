@@ -10,6 +10,7 @@ import UIKit
 class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     
     weak var responderSoem: MovieIxResponder?
+    var movies: [MovieEntity] = []
     
     private let collectionView: UICollectionView
     private let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -23,10 +24,17 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
+        
+        layout.itemSize = CGSize(width: 160, height: 240)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(frame: frame)
         setupUI()
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +44,8 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     func setupUI() {
         addSubview(activityIndicator)
         addSubview(collectionView)
+        
+        activityIndicator.hidesWhenStopped = true
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +65,8 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
             
         ])
         
-        
+        collectionView.register(MovieCell.self, forCellWithReuseIdentifier: "MovieCell")
+        collectionView.dataSource = self
     }
     
     func render(state: MovieListViewState) {
@@ -68,6 +79,31 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
         }
         
         collectionView.isHidden = state.isLoading
+        
+        movies = state.movies
+        collectionView.reloadData()
     }
 }
+
     
+// MARK: - Extension
+
+extension MovieListRootView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.movies.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as? MovieCell
+        let movie = movies[indexPath.row]
+        cell?.configure(with: movie)
+        return cell ?? UICollectionViewCell()
+    }
+    
+    
+    
+    
+    
+}
