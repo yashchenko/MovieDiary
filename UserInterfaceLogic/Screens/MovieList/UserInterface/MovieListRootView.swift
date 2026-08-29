@@ -98,12 +98,8 @@ extension MovieListRootView: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as? MovieCell
         let movie = movies[indexPath.row]
+        cell?.cachingProtocol = ImageCaching.shared
         cell?.configure(with: movie)
         return cell ?? UICollectionViewCell()
     }
-    
-    
-    
-    
-    
 }

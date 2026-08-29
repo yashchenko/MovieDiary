@@ -30,7 +30,7 @@ struct MovieEntity: Codable {
     let originalLanguage: String
     let originalTitle, overview: String
     let popularity: Double
-    let posterPath, releaseDate: String?
+    let posterPath, releaseDate: String
     let softcore, video: Bool
     let voteAverage: Double
     let voteCount: Int
