@@ -33,13 +33,22 @@ class ImageCaching: ImageCachingProtocol {
             return
         }
         
-        let url = URL(string: cacheKey as? String ?? "")!
-        
+        guard let url = URL(string: url) else {
+            completion(.failure(APIError.invalidURL))
+            return
+        }
         
         URLSession.shared.dataTask(with: url) { data, response, errror in
-            guard let data = data, errror == nil, let image = UIImage(data: data) else {
+            
+            if let error = errror {
                 
-                completion(.failure(APIError.networkError(errror!)))
+                completion(.failure(APIError.networkError(error)))
+                
+            }
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                
+                completion(.failure(APIError.invalidResponse))
                 return
             }
             
@@ -48,10 +57,7 @@ class ImageCaching: ImageCachingProtocol {
             completion(.success(image))
             
         }.resume()
-        
     }
-    
-    
 }
 
 
