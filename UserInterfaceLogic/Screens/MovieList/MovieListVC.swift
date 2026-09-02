@@ -11,6 +11,8 @@ class MovieListVC: UIViewController, MovieIxResponder {
     
     private let viewSome: MovieListUserInterfaceProtocol
     private let useCase: FetchPopularMoviesProtocol
+    var onSelectMovie: ((MovieEntity) -> ())?
+    
     
     override func loadView() {
         
@@ -54,5 +56,9 @@ class MovieListVC: UIViewController, MovieIxResponder {
                 }
             }
         }
+    }
+    
+    func didSelectMovie(movie: MovieEntity) {
+        onSelectMovie?(movie)
     }
 }

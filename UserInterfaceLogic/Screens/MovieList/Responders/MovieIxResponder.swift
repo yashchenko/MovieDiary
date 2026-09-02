@@ -11,4 +11,5 @@ protocol MovieIxResponder: AnyObject {
     
     func screenDidReady()
     
+    func didSelectMovie(movie: MovieEntity)
 }
