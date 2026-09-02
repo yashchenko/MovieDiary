@@ -100,7 +100,7 @@
                         self?.imageCell.image = image
                     }
                     
-                }
-            })
-        }
+            }
+        })
     }
+}

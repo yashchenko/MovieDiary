@@ -10,14 +10,13 @@ import UIKit
 class ImageCaching: ImageCachingProtocol {
     
     static let shared = ImageCaching()
-    
+     
     private let cache = NSCache <NSString, UIImage>()
     
     private init() {
         
         cache.countLimit = 100
         cache.totalCostLimit = 1000 * 1000 * 100
-        
     }
     
     func downloadImage(url: String, completion: @escaping (Result<UIImage, Error>) -> Void ) {
@@ -64,5 +63,4 @@ class ImageCaching: ImageCachingProtocol {
 protocol ImageCachingProtocol: AnyObject {
     
     func downloadImage(url: String, completion: @escaping (Result<UIImage, Error>) -> Void)
-    
 }

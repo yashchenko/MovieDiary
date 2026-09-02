@@ -67,6 +67,7 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
         
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: "MovieCell")
         collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     func render(state: MovieListViewState) {
@@ -88,7 +89,7 @@ class MovieListRootView: UIView, MovieListUserInterfaceProtocol {
     
 // MARK: - Extension
 
-extension MovieListRootView: UICollectionViewDataSource {
+extension MovieListRootView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.movies.count
         
@@ -101,5 +102,14 @@ extension MovieListRootView: UICollectionViewDataSource {
         cell?.cachingProtocol = ImageCaching.shared
         cell?.configure(with: movie)
         return cell ?? UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        print("indexPath: \(indexPath.row)")
+        let movie = movies[indexPath.row]
+        
+        responderSoem?.didSelectMovie(movie: movie)
+        
     }
 }
