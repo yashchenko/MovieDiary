@@ -12,6 +12,7 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
     // MARK: - Properties
     
     weak var cachingProtocol: ImageCachingProtocol?
+    weak var saveMovieResponder: MovieDetailsIxResponder?
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -21,7 +22,6 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.backgroundColor = .systemGray4
-        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
@@ -29,7 +29,6 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
         let label = UILabel()
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -37,7 +36,6 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .medium)
         label.textColor = .systemOrange
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -45,8 +43,21 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var saveButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Save to diary", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.backgroundColor = .systemBlue
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        button.addAction(UIAction(handler: { [weak self] _ in
+            self?.didSaveButtopnTapped()
+            
+        }), for: .touchUpInside)
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -72,7 +83,8 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
             posterImageView,
             titleLabel,
             ratingLabel,
-            overviewLabel
+            overviewLabel,
+            saveButton
         ])
         
         contentView.addSubviews(view: [
@@ -80,7 +92,8 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
             posterImageView,
             titleLabel,
             ratingLabel,
-            overviewLabel
+            overviewLabel,
+            saveButton
         ])
         
         NSLayoutConstraint.activate([
@@ -111,7 +124,12 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
             overviewLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 16),
             overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            
+            saveButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 24),
+            saveButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            saveButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            saveButton.heightAnchor.constraint(equalToConstant: 50),
+            saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
     }
     
@@ -138,5 +156,9 @@ class MovieDetailRootView: UIView, MovieDetailProtocol {
                     }
                 }
         })
+    }
+    
+    private func didSaveButtopnTapped() {
+        saveMovieResponder?.didSaveButtonTapped()
     }
 }

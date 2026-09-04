@@ -22,6 +22,20 @@ class UserDefaultsDataStore: DataStoreProtocol {
         }
         
         currentMovies.append(movie)
+        
+        do {
+            
+            let encode = JSONEncoder()
+            let data = try encode.encode(currentMovies)
+            
+            defaults.setValue(data, forKey: storeKey)
+            
+            NotificationCenter.default.post(name: .diaryDidUpdate, object: nil)
+            
+        } catch {
+            
+            print("❌ [UserDefaults] Ошибка кодирования: \(error)")
+        }
     }
     
     func fetchMovies() -> [MovieEntity] {
