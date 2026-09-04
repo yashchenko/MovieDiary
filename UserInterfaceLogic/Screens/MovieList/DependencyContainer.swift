@@ -30,20 +30,22 @@ class DependencyContainer {
         }
         
         
-        
-        
-        
         return movieListVC
     }
     
     private func makeDetailVC(movie: MovieEntity) -> UIViewController {
         
+        let dataStore = UserDefaultsDataStore()
+        let useCase = SaveMovieUseCase(storage: dataStore)
+        
+        
         let detailsView = MovieDetailRootView()
         detailsView.cachingProtocol = ImageCaching.shared
         
         
-        let detailsVC = MovieDetailVC(view: detailsView, movie: movie)
+        let detailsVC = MovieDetailVC(view: detailsView, movie: movie, useCase: useCase)
+        
+        detailsView.saveMovieResponder = detailsVC
         return detailsVC
     }
-    
 }

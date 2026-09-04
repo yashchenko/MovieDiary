@@ -7,15 +7,17 @@
 
 import UIKit
 
-class MovieDetailVC: UIViewController {
+class MovieDetailVC: UIViewController, MovieDetailsIxResponder {
     
     private let customView: MovieDetailProtocol
     private let movie: MovieEntity
+    private let useCase: SaveMovieUseCaseProtocol
     
-    init(view: MovieDetailProtocol, movie: MovieEntity) {
+    init(view: MovieDetailProtocol, movie: MovieEntity, useCase: SaveMovieUseCaseProtocol) {
         
         self.customView = view
         self.movie = movie
+        self.useCase = useCase
         
         
         
@@ -45,4 +47,7 @@ class MovieDetailVC: UIViewController {
         customView.render(movie: movie)
     }
     
+    func didSaveButtonTapped() {
+        useCase.save(movie: movie)
+    }
 }
