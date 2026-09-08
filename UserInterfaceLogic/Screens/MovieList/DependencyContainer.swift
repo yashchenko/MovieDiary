@@ -29,7 +29,13 @@ class DependencyContainer {
             
         }
         
-        
+        movieListVC.didOpenDiary = { [weak self] in
+            
+            guard let self = self else { return }
+            
+            movieListVC.navigationController?.pushViewController(self.makeDiaryVC(), animated: true)
+        }
+    
         return movieListVC
     }
     
@@ -47,5 +53,18 @@ class DependencyContainer {
         
         detailsView.saveMovieResponder = detailsVC
         return detailsVC
+    }
+    
+    func makeDiaryVC() -> UIViewController {
+        
+        let dataStore = UserDefaultsDataStore()
+        let useCase = FetchDiaryMoviesUseCase(dataStore: dataStore)
+        let view = MovieListRootView()
+        let observer = ObserverForDiary()
+        let vc = ListSavedMoviesVC(view: view, useCase: useCase, observer: observer)
+        
+        view.responderSoem = vc
+        
+        return vc
     }
 }
