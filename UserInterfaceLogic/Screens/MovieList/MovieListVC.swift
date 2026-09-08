@@ -12,6 +12,8 @@ class MovieListVC: UIViewController, MovieIxResponder {
     private let viewSome: MovieListUserInterfaceProtocol
     private let useCase: FetchPopularMoviesProtocol
     var onSelectMovie: ((MovieEntity) -> ())?
+    var didOpenDiary: (() -> Void)?
+    
     
     
     override func loadView() {
@@ -31,10 +33,21 @@ class MovieListVC: UIViewController, MovieIxResponder {
         super.init(nibName: nil, bundle: nil)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Catalogue"
+        setupButton()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupButton() {
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(didTapBarButton))
+    }
     
     func screenDidReady() {
         print("view is ready")
@@ -60,5 +73,11 @@ class MovieListVC: UIViewController, MovieIxResponder {
     
     func didSelectMovie(movie: MovieEntity) {
         onSelectMovie?(movie)
+    }
+    
+    @objc private func didTapBarButton() {
+        
+        self.didOpenDiary?()
+        
     }
 }
