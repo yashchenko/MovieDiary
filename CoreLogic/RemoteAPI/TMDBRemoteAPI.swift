@@ -57,4 +57,46 @@ class TMDBRemoteAPI: RemoteAPI {
         
         task.resume()
     }
+    
+    func searchMovies(query: String, completion: @escaping (Result<[MovieEntity], APIError>) -> Void) {
+        guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        let urlString = "\(url)/search/movie?api_key=\(apiKey)&language=ru-RU&query=\(encodedQuery)"
+        
+        guard let url = URL(string: urlString) else {
+            
+            completion(.failure(.invalidURL))
+            return
+            
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                
+                completion(.failure(.networkError(error)))
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode), let data = data else {
+                
+                completion(.failure(.invalidResponse))
+                return
+            }
+            
+            do {
+                
+                let decoded = try JSONDecoder().decode(MoviePageEntity.self, from: data)
+                completion(.success(decoded.results))
+                
+            } catch let decodingError {
+                print("🚨 ОШИБКА ПАРСИНГА ПОИСКА: \(decodingError)") // 👈 ДОБАВИТЬ
+                completion(.failure(.decodingError(decodingError)))
+            }
+        }
+        
+        task.resume()
+    }
 }

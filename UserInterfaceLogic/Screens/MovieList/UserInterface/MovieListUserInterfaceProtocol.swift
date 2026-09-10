@@ -11,4 +11,5 @@ protocol MovieListUserInterfaceProtocol {
     
     func render(state: MovieListViewState)
     
+    func updateContentInser(bottom: CGFloat)
 }
