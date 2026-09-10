@@ -99,7 +99,6 @@
                         
                         self?.imageCell.image = image
                     }
-                    
             }
         })
     }

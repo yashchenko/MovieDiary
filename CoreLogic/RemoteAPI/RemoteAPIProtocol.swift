@@ -10,4 +10,6 @@ import Foundation
 protocol RemoteAPI {
     
     func fetchMovies(pages: Int, completion: @escaping (Result<[MovieEntity], APIError>) -> Void)
+    
+    func searchMovies(query: String, completion: @escaping (Result<[MovieEntity], APIError>) -> Void)
 }

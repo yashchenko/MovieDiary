@@ -16,8 +16,11 @@ class DependencyContainer {
         let remoteApi = TMDBRemoteAPI()
         let useCase = FetchPopularMovies(tmdb: remoteApi)
         let movieListRootView = MovieListRootView()
+        let serchCase = SearchUseCase(tmdb: remoteApi)
+        let keyboardObserver = ObserverForKeyboard()
         
-        let movieListVC = MovieListVC(view: movieListRootView, useCase: useCase)
+        
+        let movieListVC = MovieListVC(view: movieListRootView, useCase: useCase, searchUseCase: serchCase, keyboardObserver: keyboardObserver)
         movieListRootView.responderSoem = movieListVC
         
         movieListVC.onSelectMovie = { [weak self] movie in
